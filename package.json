@@ -1,0 +1,27 @@
+{
+  "name": "authauth",
+  "version": "0.0.1",
+  "description": "nodejs middleware to use Google OpenID for Authentication and a different service for Authorization",
+  "main": "index.js",
+  "dependencies" : {
+    "passport": ">= 0.0.0",
+    "passport-google": ">= 0.0.0"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/enw/authauth.git"
+  },
+  "keywords": [
+    "authentication",
+    "authentication"
+  ],
+  "author": "Elliot Winard",
+  "license": "BSD",
+  "gitHead": "b27d9b374f28bfe586fabc90ae87817c87805172"
+}
