@@ -19,7 +19,7 @@ app.configure(function() {
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(ensureAuthenticated);
+  app.use(passport.ensureAuthenticated());
   app.use(app.router);
   app.use(express.static(__dirname + '/../../public'));
 });
@@ -66,25 +66,5 @@ app.get('/logout', function(req, res){
 });
 
 app.listen(3000);
-
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  console.log(req.url, isAuthURL(req.url));
-  function isAuthURL(url) {
-      var isAuthURL = {
-          '/login':1,
-          '/favicon.ico':1,
-          '/auth/google':1
-      };
-      return isAuthURL[url] || url.indexOf("/auth/google") == 0;
-  }
-  if (req.isAuthenticated() || isAuthURL(req.url)) { return next(); }
-  res.redirect('/login')
-}
 
 console.log("go to http://localhost:3000.  Only elliot.at.frog@gmail.com (mail for password) is allowed to use the app.")

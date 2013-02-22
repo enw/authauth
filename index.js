@@ -23,17 +23,18 @@ passport.deserializeUser(function(obj, done) {
 // using a google openid with a non-google (my) will *not* be secure unless
 // security is managed on the server-side by doing something like inspecting
 // incoming headers and only authorizing things referred by a valid url.
-function userIsAllowedOnSite(site, identifier, cb) {
+function userIsAllowedOnSite(site, email, cb) {
     var userIsAllowedOnSite = {
         "http://localhost:3000/" : {
-                "https://www.google.com/accounts/o8/id?id=AItOawlDzU91WfQO5lN5DFtRrVN1yZlWXjv70CI":1
+//                "https://www.google.com/accounts/o8/id?id=AItOawlDzU91WfQO5lN5DFtRrVN1yZlWXjv70CI":1
+                "elliot.winard@gmail.com":1
         }
     };
 
     // asynchronous verification, for effect...
     process.nextTick(function () {
       // check for authorization
-      cb(null, userIsAllowedOnSite[APP_ROOT][identifier] != undefined);
+      cb(null, userIsAllowedOnSite[APP_ROOT][email] != undefined);
     });
 
 }
@@ -49,7 +50,8 @@ passport.use(new GoogleStrategy({
   },
   function(identifier, profile, done) {
       // asynchronously check for authorization
-      return userIsAllowedOnSite(APP_ROOT, identifier, function (err, isAllowed) {
+      return userIsAllowedOnSite(APP_ROOT, profile.emails[0].value, function (err, isAllowed) {
+console.log("PROFILE", profile);
           if (isAllowed) {
               // To keep the example simple, the user's Google profile is returned to
               // represent the logged-in user.  In a typical application, you would want
