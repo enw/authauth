@@ -51,7 +51,6 @@ passport.use(new GoogleStrategy({
   function(identifier, profile, done) {
       // asynchronously check for authorization
       return userIsAllowedOnSite(APP_ROOT, profile.emails[0].value, function (err, isAllowed) {
-console.log("PROFILE", profile);
           if (isAllowed) {
               // To keep the example simple, the user's Google profile is returned to
               // represent the logged-in user.  In a typical application, you would want
@@ -60,7 +59,7 @@ console.log("PROFILE", profile);
               profile.identifier = identifier;
               return done(null, profile);
           } else {
-              return done("sorry, you don't have permission to use this site. ciao. your Google openID is "+identifier);
+              return done("sorry, you don't have permission to use this site. ciao. Ask to have your email added - "+profile.emails[0].value);
           }
       });
   })
