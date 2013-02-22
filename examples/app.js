@@ -19,6 +19,7 @@ app.configure(function() {
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(ensureAuthenticated);
   app.use(app.router);
   app.use(express.static(__dirname + '/../../public'));
 });
@@ -28,7 +29,8 @@ app.get('/', function(req, res){
   res.render('index', { user: req.user });
 });
 
-app.get('/account', ensureAuthenticated, function(req, res){
+//app.get('/account', ensureAuthenticated, function(req, res){
+app.get('/account', function(req, res){
   res.render('account', { user: req.user });
 });
 
@@ -72,7 +74,16 @@ app.listen(3000);
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
+  console.log(req.url, isAuthURL(req.url));
+  function isAuthURL(url) {
+      var isAuthURL = {
+          '/login':1,
+          '/favicon.ico':1,
+          '/auth/google':1
+      };
+      return isAuthURL[url] || url.indexOf("/auth/google") == 0;
+  }
+  if (req.isAuthenticated() || isAuthURL(req.url)) { return next(); }
   res.redirect('/login')
 }
 

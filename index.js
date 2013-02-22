@@ -64,4 +64,22 @@ passport.use(new GoogleStrategy({
   })
 );
 
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+passport.ensureAuthenticated = function () {return function (req, res, next) {
+  function isAuthURL(url) {
+      var isAuthURL = {
+          '/login':1,
+          '/favicon.ico':1,
+          '/auth/google':1
+      };
+      return isAuthURL[url] || url.indexOf("/auth/google") == 0;
+  }
+  if (req.isAuthenticated() || isAuthURL(req.url)) { return next(); }
+  res.redirect('/login')
+}}
+
 module.exports = passport;
