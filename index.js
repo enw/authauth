@@ -24,12 +24,7 @@ passport.deserializeUser(function(obj, done) {
 // security is managed on the server-side by doing something like inspecting
 // incoming headers and only authorizing things referred by a valid url.
 function userIsAllowedOnSite(site, email, cb) {
-    var userIsAllowedOnSite = {
-        "http://localhost:3000/" : {
-//                "https://www.google.com/accounts/o8/id?id=AItOawlDzU91WfQO5lN5DFtRrVN1yZlWXjv70CI":1
-                "elliot.winard@gmail.com":1
-        }
-    };
+    var userIsAllowedOnSite = require("./WHITELIST");
 
     // asynchronous verification, for effect...
     process.nextTick(function () {
